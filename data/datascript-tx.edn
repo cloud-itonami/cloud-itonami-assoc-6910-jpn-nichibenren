@@ -1,0 +1,28 @@
+;; data/datascript-tx.edn — DataScript tx-data derived from
+;; src/association/facts.cljc `association.facts/catalog` (ADR-2607141700
+;; Wave 0). No :db/id per entity, same shape as sibling tx-data files.
+;; `:association-rule/topic` serialized as a vector.
+
+[#:association-rule{:id "nichibenren.basic-rules-on-duties-of-practicing-attorneys"
+                     :title "Basic Rules on the Duties of Practicing Attorneys (弁護士職務基本規程, Federation's Rule No. 70)"
+                     :association "nichibenren"
+                     :isic "6910"
+                     :country "JPN"
+                     :kind :self-regulatory-code
+                     :url "https://www.nichibenren.or.jp/library/en/about/data/Basic_Rules_Practicing.pdf"
+                     :url-provenance :official-association-site
+                     :established-date "2004-11-10"
+                     :last-revised-date "2021-06-11"
+                     :retrieved-at "2026-07-15"
+                     :topic [:ethics :member-conduct]}
+ #:association-rule{:id "nichibenren.about-jfba-profile"
+                     :title "What is the JFBA? (organization profile)"
+                     :association "nichibenren"
+                     :isic "6910"
+                     :country "JPN"
+                     :kind :governance-program
+                     :url "https://www.nichibenren.or.jp/en/about/us/profile.html"
+                     :url-provenance :official-association-site
+                     :established-date "1949-09-01"
+                     :retrieved-at "2026-07-15"
+                     :topic [:governance]}]
