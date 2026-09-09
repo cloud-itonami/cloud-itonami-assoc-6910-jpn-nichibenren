@@ -25,16 +25,32 @@
 (def ^:private slug "nichibenren")
 (def ^:private fields
   ["id" "title" "association" "isic" "country" "kind" "url" "url-provenance"
-   "established-date" "retrieved-at"])
+   "established-date" "last-revised-date" "retrieved-at"])
 (def ^:private kw->field
   {"id" :association-rule/id "title" :association-rule/title
    "association" :association-rule/association "isic" :association-rule/isic
    "country" :association-rule/country "kind" :association-rule/kind
    "url" :association-rule/url "url-provenance" :association-rule/url-provenance
    "established-date" :association-rule/established-date
+   "last-revised-date" :association-rule/last-revised-date
    "retrieved-at" :association-rule/retrieved-at})
 (def ^:private entries (vec (facts/spec-basis slug)))
-(def ^:private topic-order [["ethics" "member-conduct"] ["governance"]])
+(def ^:private topic-order
+  ;; The order data/datascript-tx.edn writes, entry by entry. Written out rather
+  ;; than read off the set, because the point is to pin the order the generator
+  ;; chose; the assertion below checks it against the .cljc so a wrong line here
+  ;; fails rather than redefines the expectation.
+  [["ethics" "member-conduct"]
+   ["governance"]
+   ["governance"]
+   ["ethics" "member-conduct"]
+   ["ethics" "member-conduct"]
+   ["governance" "member-conduct"]
+   ["governance" "discipline"]
+   ["member-conduct"]
+   ["anti-money-laundering" "member-conduct"]
+   ["anti-money-laundering" "member-conduct"]
+   ["governance"]])
 
 (deftest the-fixture-reads-a-real-catalog
   ;; An empty catalog compares equal to an empty port.
