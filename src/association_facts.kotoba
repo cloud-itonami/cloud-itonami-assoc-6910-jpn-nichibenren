@@ -1,16 +1,19 @@
 ;; The NICHIBENREN source catalog, as Kotoba.
 ;;
-;; GENERATED from data/datascript-tx.edn, which src/association/facts.cljc
-;; reads as data. Both are the same catalog; this one reaches the Kotoba
-;; oracle, wasm and both native ISAs, which the .cljc cannot.
+;; GENERATED from data/datascript-tx.edn by
+;; scripts/gen_association_facts_kotoba.cljs -- do not edit by hand; edit the
+;; data file and regenerate. `src/association/facts.cljc` holds the same
+;; catalog, and association.facts-test asserts the two agree, so the data
+;; file is the one source all three readings come from. This one reaches the
+;; Kotoba oracle, wasm and both native ISAs, which the .cljc cannot.
 ;;
-;; `:topic` is a SET in the source. A set has no order and `topic` is
-;; indexed by position, so the generator uses the order the data file
-;; writes. `by-topic-id` answers by name and is unaffected.
+;; `:topic` is a SET in the .cljc. A set has no order and `topic` is indexed
+;; by position, so the generator uses the order the data file writes.
+;; `by-topic-id` answers by name and is unaffected.
 ;;
-;; Parity: test/association_facts_kotoba_parity_test.clj compares every
-;; field of every entry against the .cljc, so this file cannot drift from
-;; the data without the suite saying so.
+;; Parity: test/association_facts_kotoba_parity_test.clj compares every field
+;; of every entry against the .cljc, so this file cannot drift from the data
+;; without the suite saying so.
 
 (ns association-facts
   (:export [main association-covered? entry-count entry-field topic-count
@@ -18,14 +21,15 @@
 
 (defn association-covered? [a :string] :bool (string=? a "nichibenren"))
 
-(defn entry-count [a :string] :i64 (if (association-covered? a) 2 0))
+(defn entry-count [a :string] :i64 (if (association-covered? a) 11 0))
 
 (defn valid-entry? [a :string i :i64] :bool
-  (if (association-covered? a) (if (< i 0) false (< i 2)) false))
+  (if (association-covered? a) (if (< i 0) false (< i 11)) false))
 
 (defn entry-field [a :string i :i64 f :string] [:option :string]
   (if (valid-entry? a i)
-    (if (= i 0)
+    (cond
+      (= i 0)
       (cond
         (string=? f "id") (option-some-of [:option :string] "nichibenren.basic-rules-on-duties-of-practicing-attorneys")
         (string=? f "title") (option-some-of [:option :string] "Basic Rules on the Duties of Practicing Attorneys (弁護士職務基本規程, Federation's Rule No. 70)")
@@ -36,9 +40,10 @@
         (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Basic_Rules_Practicing.pdf")
         (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
         (string=? f "established-date") (option-some-of [:option :string] "2004-11-10")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
         (string=? f "retrieved-at") (option-some-of [:option :string] "2026-07-15")
-        :else (option-none-of [:option :string])
-        )
+        :else (option-none-of [:option :string]))
+      (= i 1)
       (cond
         (string=? f "id") (option-some-of [:option :string] "nichibenren.about-jfba-profile")
         (string=? f "title") (option-some-of [:option :string] "What is the JFBA? (organization profile)")
@@ -50,41 +55,247 @@
         (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
         (string=? f "established-date") (option-some-of [:option :string] "1949-09-01")
         (string=? f "retrieved-at") (option-some-of [:option :string] "2026-07-15")
-        :else (option-none-of [:option :string])
-        )
-      )
+        :else (option-none-of [:option :string]))
+      (= i 2)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.articles-of-association")
+        (string=? f "title") (option-some-of [:option :string] "Articles of Association of Japan Federation of Bar Associations (日本弁護士連合会会則)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Articl_Bar_Associations.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "1949-07-09")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 3)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.basic-rules-on-duties-of-foreign-special-members")
+        (string=? f "title") (option-some-of [:option :string] "Basic Rules on the Duties of Foreign Special Members (外国特別会員基本規程, Federation's Rule No. 25)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Basic_Rules_Foreign.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "1987-01-24")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 4)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.basic-rules-on-duties-of-registered-foreign-lawyers")
+        (string=? f "title") (option-some-of [:option :string] "Basic Rules on the Duties of Registered Foreign Lawyers / Gaikokuho-Jimu-Bengoshi (外国法事務弁護士等職務基本規程, Federation's Rule No. 100)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Basic_Rules_Registered.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2014-12-05")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 5)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.basic-rules-for-joint-corporation-members")
+        (string=? f "title") (option-some-of [:option :string] "Basic Rules for Joint Corporation Members (共同法人会員基本規程, Federation's Rule No. 105)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Joint_Corp_Rules.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-12-03")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 6)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.rules-on-disclosure-of-disciplinary-records")
+        (string=? f "title") (option-some-of [:option :string] "Rules Concerning Disclosure of Disciplinary Records of Registered Foreign Lawyers (外国法事務弁護士等の懲戒処分歴の開示に関する規程, Federation's Rule No. 88)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Rules_Disclosure.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2008-12-05")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 7)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.rules-on-office-name-of-registered-foreign-lawyers")
+        (string=? f "title") (option-some-of [:option :string] "Rules on Office Name of Registered Foreign Lawyers (外国法事務弁護士事務所等の名称等に関する規程, Federation's Rule No. 76)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "practice-guidance")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/about/data/Rules_Office_Name.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2006-03-03")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2021-06-11")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 8)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.rules-on-verification-of-client-identity")
+        (string=? f "title") (option-some-of [:option :string] "Rules Concerning Verification of Client Identity and Retention of Records (依頼者の本人特定事項等の確認及び記録保存等に関する規程, Rules of the Federation No. 95)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "self-regulatory-code")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/pdf/jfba_info/rules/kaiki/kaiki_no_95_en_2404.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2012-12-07")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2023-03-03")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 9)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.regulations-on-verification-of-client-identity")
+        (string=? f "title") (option-some-of [:option :string] "Regulations Concerning Verification of Client Identity and Retention of Records (依頼者の本人特定事項等の確認及び記録保存等に関する規則, Regulation No. 154)")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "practice-guidance")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/pdf/jfba_info/rules/kisoku/kisoku_no_154_en_2404.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2012-12-20")
+        (string=? f "last-revised-date") (option-some-of [:option :string] "2024-11-20")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      (= i 10)
+      (cond
+        (string=? f "id") (option-some-of [:option :string] "nichibenren.mission-statement-on-international-affairs")
+        (string=? f "title") (option-some-of [:option :string] "Mission Statement on International Affairs")
+        (string=? f "association") (option-some-of [:option :string] "nichibenren")
+        (string=? f "isic") (option-some-of [:option :string] "6910")
+        (string=? f "country") (option-some-of [:option :string] "JPN")
+        (string=? f "kind") (option-some-of [:option :string] "governance-program")
+        (string=? f "url") (option-some-of [:option :string] "https://www.nichibenren.or.jp/library/en/document/data/mission-statement.pdf")
+        (string=? f "url-provenance") (option-some-of [:option :string] "official-association-site")
+        (string=? f "established-date") (option-some-of [:option :string] "2016-02-18")
+        (string=? f "retrieved-at") (option-some-of [:option :string] "2026-09-09")
+        :else (option-none-of [:option :string]))
+      :else (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn topic-count [a :string i :i64] :i64
   (if (valid-entry? a i)
-    (if (= i 0) 2 (if (= i 1) 1 0))
+    (cond
+      (= i 0)
+      2
+      (= i 1)
+      1
+      (= i 2)
+      1
+      (= i 3)
+      2
+      (= i 4)
+      2
+      (= i 5)
+      2
+      (= i 6)
+      2
+      (= i 7)
+      1
+      (= i 8)
+      2
+      (= i 9)
+      2
+      (= i 10)
+      1
+      :else 0)
     0))
 
 (defn topic [a :string i :i64 t :i64] [:option :string]
   (if (valid-entry? a i)
-    (if (= i 0)
-      (if (= t 0) (option-some-of [:option :string] "ethics") (if (= t 1) (option-some-of [:option :string] "member-conduct") (option-none-of [:option :string])))
-    (if (= i 1)
-      (if (= t 0) (option-some-of [:option :string] "governance") (option-none-of [:option :string]))
-    (option-none-of [:option :string])))
+  (cond
+    (= i 0)
+    (cond
+      (= t 0) (option-some-of [:option :string] "ethics")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 1)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      :else (option-none-of [:option :string]))
+    (= i 2)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      :else (option-none-of [:option :string]))
+    (= i 3)
+    (cond
+      (= t 0) (option-some-of [:option :string] "ethics")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 4)
+    (cond
+      (= t 0) (option-some-of [:option :string] "ethics")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 5)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 6)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      (= t 1) (option-some-of [:option :string] "discipline")
+      :else (option-none-of [:option :string]))
+    (= i 7)
+    (cond
+      (= t 0) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 8)
+    (cond
+      (= t 0) (option-some-of [:option :string] "anti-money-laundering")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 9)
+    (cond
+      (= t 0) (option-some-of [:option :string] "anti-money-laundering")
+      (= t 1) (option-some-of [:option :string] "member-conduct")
+      :else (option-none-of [:option :string]))
+    (= i 10)
+    (cond
+      (= t 0) (option-some-of [:option :string] "governance")
+      :else (option-none-of [:option :string]))
+    :else (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn by-topic-count [a :string candidate :string] :i64
   (if (association-covered? a)
-    (if (string=? candidate "ethics") 1 (if (string=? candidate "member-conduct") 1 (if (string=? candidate "governance") 1 0)))
+    (cond
+      (string=? candidate "ethics") 3
+      (string=? candidate "member-conduct") 7
+      (string=? candidate "governance") 5
+      (string=? candidate "discipline") 1
+      (string=? candidate "anti-money-laundering") 2
+      :else 0)
     0))
 
 (defn by-topic-id [a :string candidate :string i :i64] [:option :string]
   (if (association-covered? a)
     (if (= i 0)
-      (if (string=? candidate "ethics") (entry-field a 0 "id") (if (string=? candidate "member-conduct") (entry-field a 0 "id") (if (string=? candidate "governance") (entry-field a 1 "id") (option-none-of [:option :string]))))
+      (cond
+        (string=? candidate "ethics") (option-some-of [:option :string] "nichibenren.basic-rules-on-duties-of-practicing-attorneys")
+        (string=? candidate "member-conduct") (option-some-of [:option :string] "nichibenren.basic-rules-on-duties-of-practicing-attorneys")
+        (string=? candidate "governance") (option-some-of [:option :string] "nichibenren.about-jfba-profile")
+        (string=? candidate "discipline") (option-some-of [:option :string] "nichibenren.rules-on-disclosure-of-disciplinary-records")
+        (string=? candidate "anti-money-laundering") (option-some-of [:option :string] "nichibenren.rules-on-verification-of-client-identity")
+        :else (option-none-of [:option :string]))
       (option-none-of [:option :string]))
     (option-none-of [:option :string])))
 
 (defn coverage-note [a :string] [:option :string]
   (if (association-covered? a)
-    (option-some-of [:option :string]
-      "cloud-itonami-assoc-6910-jpn-nichibenren Wave 0 (ADR-2607141700): 2 nichibenren entries seeded with an official citation. Extend the sovereign catalog; never fabricate a rule id/url.")
+    (option-some-of [:option :string] "cloud-itonami-assoc-6910-jpn-nichibenren (ADR-2607141700): 11 nichibenren entries, each with an official citation. Extend the sovereign catalog; never fabricate a rule id/url.")
     (option-none-of [:option :string])))
 
 (defn main [] :i64 0)

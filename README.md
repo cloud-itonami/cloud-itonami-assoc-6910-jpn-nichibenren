@@ -30,17 +30,58 @@ fabricate one.
 
 ## Data
 
-- `src/association/facts.cljc` — the catalog, source of truth.
-- `schema/association-rule.edn` — DataScript schema.
-- `data/datascript-tx.edn` — derived DataScript tx-data (query this
-  alongside other `cloud-itonami`/`etzhayyim` compliance-fact sources via
-  `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`).
+- `data/datascript-tx.edn` — the catalog. Query this alongside other
+  `cloud-itonami`/`etzhayyim` compliance-fact sources via
+  `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`.
+- `src/association/facts.cljc` — the same catalog as a Clojure map, with
+  `spec-basis` / `coverage` / `by-topic` over it.
+- `src/association_facts.kotoba` — the same catalog as Kotoba, reaching
+  the oracle, wasm and both native ISAs. **Generated** — do not hand-edit:
 
-Basic Rules on the Duties of Practicing Attorneys was verified by
-directly reading the source PDF's cover page (enacted 2004-11-10,
-most recently amended 2021-06-11, official English translation dated
-June 2022); the organization-profile page was directly WebFetch-
-verified (established 1949-09-01).
+  ```
+  nbb scripts/gen_association_facts_kotoba.cljs           # regenerate
+  nbb scripts/gen_association_facts_kotoba.cljs --check   # exit 1 if stale
+  ```
+
+- `schema/association-rule.edn` — DataScript schema.
+
+The test suite is hermetic, so it cannot tell you whether the cited documents
+are still where JFBA put them. That check is a separate, network-touching
+script:
+
+```
+nbb scripts/verify_citations.cljs   # 0 all 2xx / 1 some are not / 2 REFUSED
+```
+
+`association.facts-test` asserts the `.cljc` and the data file agree field
+for field, and `association-facts-kotoba-parity-test` compares every field
+of every entry in the `.kotoba` against the `.cljc`, so the three readings
+cannot drift apart without the suite saying so.
+
+## Provenance
+
+Eleven entries, every one citing an official `www.nichibenren.or.jp` URL.
+Each PDF was fetched and its enactment and most recent amendment dates read
+off the document's own cover page, which is where JFBA prints them — the
+strictest tier this family uses.
+
+- **2026-07-15** — Basic Rules on the Duties of Practicing Attorneys
+  (enacted 2004-11-10, last amended 2021-06-11, English translation dated
+  June 2022) from the PDF cover page; the organization-profile page
+  (established 1949-09-01) by WebFetch.
+- **2026-09-09** — the remaining nine, taken from the two pages that
+  enumerate JFBA's English-language rules,
+  [`/en/about/us/regulations.html`](https://www.nichibenren.or.jp/en/about/us/regulations.html)
+  (JFBA Rules and Regulations) and
+  [`/en/about/us/policies.html`](https://www.nichibenren.or.jp/en/about/us/policies.html).
+  Each URL was re-fetched and answered `200 application/pdf`.
+
+Where a cover page prints no amendment — the profile page, and the 2016
+Mission Statement — `:association-rule/last-revised-date` is **absent**
+rather than guessed.
+
+JFBA labels these English texts unofficial and tentative translations. The
+citation, dates and rule numbers are theirs; the Japanese text governs.
 
 ## License
 
