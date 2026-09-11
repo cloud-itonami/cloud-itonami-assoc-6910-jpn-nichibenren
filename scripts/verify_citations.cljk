@@ -1,4 +1,4 @@
-;; scripts/verify_citations.cljs — fetch every URL in the catalog and report
+;; scripts/verify_citations.cljk — fetch every URL in the catalog and report
 ;; what the server actually answered.
 ;;
 ;; The repo's whole claim is that each entry cites an official
@@ -6,7 +6,7 @@
 ;; check that -- the suite is hermetic on purpose -- so the claim is only ever
 ;; as good as the last time someone looked. This is how you look.
 ;;
-;;   nbb scripts/verify_citations.cljs
+;;   nbb scripts/verify_citations.cljk
 ;;
 ;; Exit 0 every URL answered 2xx with the content type its extension implies.
 ;;      1 at least one did not (the line says which, and what came back).

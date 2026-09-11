@@ -1,15 +1,15 @@
-;; scripts/gen_association_facts_kotoba.cljs — emit src/association_facts.kotoba
+;; scripts/gen_association_facts_kotoba.cljk — emit src/association_facts.kotoba
 ;; from data/datascript-tx.edn.
 ;;
 ;; The Kotoba port is a positional table: `entry-field` dispatches on an index
 ;; and answers a field by name, so every field of every entry appears once as a
 ;; literal. Eleven entries times eleven fields is 121 literals, which is exactly
 ;; the size at which a human transcribes one of them wrong, so the file is
-;; generated and `test/association_facts_kotoba_parity_test.clj` compares every
+;; generated and `test/association_facts_kotoba_parity_test.cljk` compares every
 ;; one of them back against the .cljc.
 ;;
-;;   nbb scripts/gen_association_facts_kotoba.cljs           # write
-;;   nbb scripts/gen_association_facts_kotoba.cljs --check   # exit 1 if stale
+;;   nbb scripts/gen_association_facts_kotoba.cljk           # write
+;;   nbb scripts/gen_association_facts_kotoba.cljk --check   # exit 1 if stale
 ;;
 ;; --check is the useful mode in CI: it fails when someone edits the catalog and
 ;; forgets to regenerate, which is the drift the parity test would otherwise
@@ -123,8 +123,8 @@
      ";; The NICHIBENREN source catalog, as Kotoba.\n"
      ";;\n"
      ";; GENERATED from data/datascript-tx.edn by\n"
-     ";; scripts/gen_association_facts_kotoba.cljs -- do not edit by hand; edit the\n"
-     ";; data file and regenerate. `src/association/facts.cljc` holds the same\n"
+     ";; scripts/gen_association_facts_kotoba.cljk -- do not edit by hand; edit the\n"
+     ";; data file and regenerate. `src/association/facts.cljk` holds the same\n"
      ";; catalog, and association.facts-test asserts the two agree, so the data\n"
      ";; file is the one source all three readings come from. This one reaches the\n"
      ";; Kotoba oracle, wasm and both native ISAs, which the .cljc cannot.\n"
@@ -133,7 +133,7 @@
      ";; by position, so the generator uses the order the data file writes.\n"
      ";; `by-topic-id` answers by name and is unaffected.\n"
      ";;\n"
-     ";; Parity: test/association_facts_kotoba_parity_test.clj compares every field\n"
+     ";; Parity: test/association_facts_kotoba_parity_test.cljk compares every field\n"
      ";; of every entry against the .cljc, so this file cannot drift from the data\n"
      ";; without the suite saying so.\n"
      "\n"
@@ -200,7 +200,7 @@
         (println "OK" out-path "is up to date with" tx-path
                  (str "(" (count entries) " entries)"))
         (do (println "STALE:" out-path "does not match" tx-path
-                     "- run: nbb scripts/gen_association_facts_kotoba.cljs")
+                     "- run: nbb scripts/gen_association_facts_kotoba.cljk")
             (js/process.exit 1))))
     (do (fs/writeFileSync out-path out)
         (println "wrote" out-path (str "(" (count entries) " entries, "
