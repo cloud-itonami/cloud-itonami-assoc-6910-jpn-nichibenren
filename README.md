@@ -39,8 +39,8 @@ fabricate one.
   the oracle, wasm and both native ISAs. **Generated** — do not hand-edit:
 
   ```
-  nbb scripts/gen_association_facts_kotoba.cljk           # regenerate
-  nbb scripts/gen_association_facts_kotoba.cljk --check   # exit 1 if stale
+  kbb --backend sci scripts/gen_association_facts_kotoba.cljk           # regenerate
+  kbb --backend sci scripts/gen_association_facts_kotoba.cljk --check   # exit 1 if stale
   ```
 
 - `schema/association-rule.edn` — DataScript schema.
@@ -50,7 +50,7 @@ are still where JFBA put them. That check is a separate, network-touching
 script:
 
 ```
-nbb scripts/verify_citations.cljk   # 0 all 2xx / 1 some are not / 2 REFUSED
+kbb --backend sci scripts/verify_citations.cljk   # 0 all 2xx / 1 some are not / 2 REFUSED
 ```
 
 `association.facts-test` asserts the `.cljc` and the data file agree field
