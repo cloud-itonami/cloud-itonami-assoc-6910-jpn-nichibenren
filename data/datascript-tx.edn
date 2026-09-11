@@ -1,6 +1,6 @@
 ;; data/datascript-tx.edn — DataScript tx-data for `association.facts`
 ;; (ADR-2607141700). This file is the catalog's source of truth: it is what
-;; `scripts/gen_association_facts_kotoba.cljs` reads to emit
+;; `scripts/gen_association_facts_kotoba.cljk` reads to emit
 ;; `src/association_facts.kotoba`, and what `association.facts-test` compares
 ;; `association.facts/catalog` against. No :db/id per entity, same shape as
 ;; sibling tx-data files. `:association-rule/topic` serialized as a vector

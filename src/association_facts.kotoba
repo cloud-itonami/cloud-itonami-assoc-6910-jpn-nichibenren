@@ -1,8 +1,8 @@
 ;; The NICHIBENREN source catalog, as Kotoba.
 ;;
 ;; GENERATED from data/datascript-tx.edn by
-;; scripts/gen_association_facts_kotoba.cljs -- do not edit by hand; edit the
-;; data file and regenerate. `src/association/facts.cljc` holds the same
+;; scripts/gen_association_facts_kotoba.cljk -- do not edit by hand; edit the
+;; data file and regenerate. `src/association/facts.cljk` holds the same
 ;; catalog, and association.facts-test asserts the two agree, so the data
 ;; file is the one source all three readings come from. This one reaches the
 ;; Kotoba oracle, wasm and both native ISAs, which the .cljc cannot.
@@ -11,7 +11,7 @@
 ;; by position, so the generator uses the order the data file writes.
 ;; `by-topic-id` answers by name and is unaffected.
 ;;
-;; Parity: test/association_facts_kotoba_parity_test.clj compares every field
+;; Parity: test/association_facts_kotoba_parity_test.cljk compares every field
 ;; of every entry against the .cljc, so this file cannot drift from the data
 ;; without the suite saying so.
 

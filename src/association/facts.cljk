@@ -13,7 +13,7 @@
   stop; extend the catalog, do not invent an id/url.
 
   `data/datascript-tx.edn` holds the same eleven entries and is the file
-  `scripts/gen_association_facts_kotoba.cljs` generates the Kotoba port
+  `scripts/gen_association_facts_kotoba.cljk` generates the Kotoba port
   from; `association.facts-test` asserts this map and that file agree
   field for field, so the three readings cannot drift apart silently.
 

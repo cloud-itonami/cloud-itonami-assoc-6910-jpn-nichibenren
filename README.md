@@ -33,14 +33,14 @@ fabricate one.
 - `data/datascript-tx.edn` — the catalog. Query this alongside other
   `cloud-itonami`/`etzhayyim` compliance-fact sources via
   `com-junkawasaki/root`'s `scripts/compliance-fact-query.cljs`.
-- `src/association/facts.cljc` — the same catalog as a Clojure map, with
+- `src/association/facts.cljk` — the same catalog as a Clojure map, with
   `spec-basis` / `coverage` / `by-topic` over it.
 - `src/association_facts.kotoba` — the same catalog as Kotoba, reaching
   the oracle, wasm and both native ISAs. **Generated** — do not hand-edit:
 
   ```
-  nbb scripts/gen_association_facts_kotoba.cljs           # regenerate
-  nbb scripts/gen_association_facts_kotoba.cljs --check   # exit 1 if stale
+  nbb scripts/gen_association_facts_kotoba.cljk           # regenerate
+  nbb scripts/gen_association_facts_kotoba.cljk --check   # exit 1 if stale
   ```
 
 - `schema/association-rule.edn` — DataScript schema.
@@ -50,7 +50,7 @@ are still where JFBA put them. That check is a separate, network-touching
 script:
 
 ```
-nbb scripts/verify_citations.cljs   # 0 all 2xx / 1 some are not / 2 REFUSED
+nbb scripts/verify_citations.cljk   # 0 all 2xx / 1 some are not / 2 REFUSED
 ```
 
 `association.facts-test` asserts the `.cljc` and the data file agree field
