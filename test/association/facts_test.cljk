@@ -7,7 +7,7 @@
   have caught each of those, so they are written over the whole catalog rather
   than over the entry someone happened to look at."
   (:require [kotoba.lang.text :as str]
-            [clojure.edn :as edn]
+            [kotoba.lang.edn :as edn]
             [kotoba.test :refer [deftest is testing]]
             [association.facts :as facts]))
 
