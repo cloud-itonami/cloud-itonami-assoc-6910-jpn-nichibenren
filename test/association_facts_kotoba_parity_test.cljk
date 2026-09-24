@@ -12,7 +12,7 @@
   by position, so the port chose the order the data file writes; the assertion
   below compares against that written order rather than against `seq` on a set,
   which is not stable to rely on."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [association.facts :as facts]
             [kotoba.compiler.core :as compiler]
             [kotoba.kir :as ir]))
